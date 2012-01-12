@@ -1,0 +1,33 @@
+COMPILING THE CHARNIAK RERANKING PARSER
+=======================================
+Get the parser at ftp://ftp.cs.brown.edu/pub/nlparser/reranking-parserAug06.tar.gz
+
+Modifications made to source code to make it compile:
+ - added to CFLAGS in Makefile:
+    -include stdlib.h -include string.h -include stdio.h
+ - added #include statements to several .h files (see compile errors 
+   about find()). Notably, many files were missing this one:
+    #include <algorithm>
+ - an unrelated set of possible problems and tips, esp. on 64bit systems:
+   http://web.science.mq.edu.au/~mpawel/resources/notes/compilingCharniakJohnson.htm
+
+The code compiles for me on pierre (a VirtualBox Ubuntu machine, 32-bit, gcc 4.4.5) 
+and it is possible to run it as "./parse STDIN" (see the diff below)
+and give the input on stdin.
+
+
+USING THE CHARNIAK RERANKING PARSER
+===================================
+Modifications made to the source code to make it work with the python wrapper:
+ - modified ewDciTokStrm.C line 54 to:
+   useCin(name=="STDIN")
+
+Then use the python wrapper or be aware of the following:
+ - output for input N will only be sent once input N+1 is given. You can cheat by giving
+   '.' as N+1th input; Charniak will return an empty line. Like this:
+   <s> I like choccies. </s>      -- waits indefinitely
+   .                              -- returns parse for choccies
+   [ WAIT AS LONG AS YOU WISH, E.G. IN A WEB SERVICE ]
+   <s> Milk is also nice </s>     -- returns empty line ("parse" for the dot)
+   .                              -- returns parse for milk
+   ETC
