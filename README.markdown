@@ -4,9 +4,8 @@ processes in the background. More importantly, it gracefully handles inputs
 for which the Charniak parser crashes or hangs.
 
 Usage:
-
-  1) As a library: call init() first, then parse_sentence(txt) for each sentence.
+  1. As a library: call init() first, then parse_sentence(txt) for each sentence.
      At teardown, you might want kill_parsers()
-  2) As a standalone web service: just run it (port and hostname hardcoded below);
+  2. As a standalone web service: just run it (port and hostname hardcoded below);
      for every line of input that you send to the socket, you receive a line of output,
      i.e. the parsed sentence.
