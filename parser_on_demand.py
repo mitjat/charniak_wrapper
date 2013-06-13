@@ -1,4 +1,4 @@
-SDF#!/usr/bin/python
+#!/usr/bin/python
 
 """
 Wrapper around Charniak's parser, allowing to use it one sentence at a time
