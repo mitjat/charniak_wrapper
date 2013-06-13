@@ -219,10 +219,13 @@ def init(num_parsers=NUM_PARSERS,parser_cmd=PARSER_CMD,parser_dir=PARSER_DIR):
 	log(4, '%d parser control threads started' % num_parsers)
 
 def kill_parsers():
-	while True:
+	global parser_pool
+	for ppool in parser_pool:
 		try:
-			for pid in proc_subtree(parser_pool.get_nowait().pid): os.kill(pid, 9)
+			for pid in proc_subtree(ppool.proc.pid):
+				os.kill(pid,9)
 		except Empty: break
+	parser_pool = []
 
 def main():
 	'Set up the multithreaded web server'
